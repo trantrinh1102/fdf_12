@@ -1,11 +1,11 @@
 class Product < ApplicationRecord
   acts_as_paranoid
+  acts_as_taggable
+
   belongs_to :category
   belongs_to :shop
   belongs_to :user
 
-  has_many :tag_products
-  has_many :tags, through: :tag_products
   has_many :order_products
   has_many :reviews, as: :reviewable
   has_many :comments, as: :commentable

@@ -14,17 +14,13 @@
         class="rating-loading star-rating" data-size="sm"
         value=<%= shop.averate_rating %> >
       <div class="description quote"><p><%= shop.description %></p></div>
-      <div class="category">
-        <ul class="nav">
-          <li>
-            <a href="/?category=4">Bread</a>
-          </li>
-          <li>
-            <a href="/?category=2">Drink</a>
-          </li>
-          <li>
-            <a href="/?category=1">Snack</a>
-          </li>
+      <div>
+        <ul class="tags">
+          <% shop.all_tags.each do |tag| %>
+            <li>
+              <%= link_to tag.name, tag_path(tag), class: "tag" %>
+            </li>
+          <% end %>
         </ul>
       </div>
     </div>

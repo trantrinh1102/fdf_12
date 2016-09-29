@@ -281,12 +281,31 @@ $orange_main: #ff5722;
     .shop-avatar {
       display: block;
       float: left;
-      padding: 10px 5px 0 0;
+      padding-top: 10px;
 
       img {
         height: 24px;
         border-radius: 4px;
       }
     }
+  }
+}
+.shop-thumbnail {
+  display: block;
+  float: left;
+  padding: 10px 5px 0 0;
+  img {
+    height: 50px;
+    border-radius: 4px;
+    margin: 10px;
+  }
+}
+.product-thumbnail {
+  display: block;
+  float: left;
+  padding: 10px 5px 0 0;
+  img {
+    height: 50px;
+    border-radius: 25px;
   }
 }

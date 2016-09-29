@@ -1,4 +1,4 @@
-<div class="detailBox col-md-8 col-md-offset-2">
+<div class="bordered rounded detailBox col-md-12">
   <div class="titleBox">
     <label><%= t ".comment_box" %></label>
     <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -13,9 +13,6 @@
     </p>
   </div>
   <div class="actionBox">
-    <ul class="commentList">
-      <%= render comments %>
-    </ul>
     <% if user_signed_in? %>
       <div class="row">
         <%= form_for [object, comment] do |f| %>
@@ -30,5 +27,11 @@
         <% end %>
       </div>
     <% end %>
+    <div id="fb-root"></div>
+    <div class="fb-comments" data-href="<%= request.original_url %>"
+      data-num-posts="<%= Settings.comment.num_posts %>"></div>
+    <ul class="commentList">
+      <%= render comments %>
+    </ul>
   </div>
 </div>

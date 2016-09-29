@@ -1,27 +1,91 @@
-<div class="container detail-product">
-  <div class="row">
-    <div class="col-md-3 col-md-offset-1">
+<div class="line">
+  <div class="unit7">
+    <div class="m-panel pad-50">
+      <div class="aligner-c" id="product_preview">
       <%= image_tag @product.image.url %>
+      </div>
     </div>
-    <div class="col-md-5 col-md-offset-1">
-      <ul class="list-group">
-        <li class="list-group-item">
-          <h3 class="media-heading"><%= @product.name %></h3>
-        </li>
-        <li class="list-group-item">
-          <strong><%= @product.price %> <%= t "cart.vnd" %> </strong>
-        </li>
-        <li class="list-group-item">
-          <%= @product.description %>
-        </li>
-      </ul>
+    <div class="a-divider--hidden"></div>
+    <div class="share-product">
+      <%= social_share_button_tag(@product.name) %>
+    </div>
+    <div class="fb-like" data-href="<%= request.original_url %>"
+      data-layout="standard" data-action="like" ></div>
+    <ul class="tags">
+      <% @product.tags.each do |tag| %>
+        <li><%= link_to tag.name, tag_path(tag), class: "tag" %></li>
+      <% end %>
+    </ul>
+    <div class="a-divider--hidden"></div>
+    <div class="bordered rounded bg-eb-white">
+    <%= render "shared/comments", object: @product, comment: @comment,
+      comments: @comments %>
+    </div>
+  </div>
+
+  <div class="unit5">
+    <div class="m-panel pad-50">
+      <h3 class="capcase lead mar-bottom-20">
+        <strong><%= @product.name %></strong>
+      </h3>
+      <div class="a-divider--fit"></div>
+      <div class="aligner-jsc wp100 h40">
+      <p class="lead eb-orange mar-bottom-0">
+        <%= number_to_currency @product.price %>
+      </p>
+      </div>
+      <div class="a-divider--fit mar-bottom-30"></div>
+      <div class="mar-bottom-20">
+      <p><%= @product.description %></p>
+      </div>
+      <div class="hide mar-bottom-20">
+      <p><%= @product.description %></p>
+      <div class="mar-bottom-30">
+        <div class="a-divider--fit"></div>
+      </div>
       <%= link_to cart_path(@product), remote: true,
-        method: :put, class: "btn btn_add_to_cart" do %>
+        method: :put, class: "btn btn-warning" do %>
         <span class="glyphicon glyphicon-shopping-cart"></span>
         <%= t "cart.add_to_card" %>
       <% end %>
     </div>
+    <div class="a-divider--hidden"></div>
+    <div class="m-panel">
+      <div class="row">
+        <div class="col-md-2">
+          <span class="shop-thumbnail">
+            <%= image_tag @product.shop_avatar.url %>
+          </span>
+        </div>
+        <div class="col-md-10">
+          <h3>
+            <%= link_to @product.shop_name, @product.shop,
+              class: "capcase lead mar-bottom-20" %>
+          </h3>
+          <p class="smallcaps mar-right-10">
+            <%= t "common.product_number",
+              number: @product.shop.products.size %>
+          </p>
+        </div>
+      </div>
+      <div class="m-panel__content">
+        <div class="line">
+          <% @product.shop.products.each do |product| %>
+            <div class="unit3">
+              <%= link_to product do %>
+                <span class="product-thumbnail">
+                  <%= image_tag product.image.url, alt: product.name %>
+                </span>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+        <div class="a-divider--fit"></div>
+        <div class="unit">
+          <%= link_to t("common.btn_view_all"), @product.shop,
+            class: "btn btn-success btn-block" %>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<%= render "shared/comments", object: @product, comment: @comment,
-  comments: @comments %>

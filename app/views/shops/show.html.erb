@@ -40,6 +40,17 @@
     </div>
   </div>
 </div>
+
+<div class="container">
+  <ul class="tags">
+    <% @shop.all_tags.each do |tag| %>
+      <li>
+        <%= link_to tag.name, tag_path(tag), class: "tag" %>
+      </li>
+    <% end %>
+  </ul>
+</div>
+
 <div class="row">
   <h2 class="section_title">
     <%= @products.any? ? t(".products") : t(".no_product") %>
@@ -47,4 +58,5 @@
   <div class="col-md-12" id="id_products_list">
     <%= render @products %>
   </div>
+  <%= paginate @products %>
 </div>

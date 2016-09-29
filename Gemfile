@@ -27,6 +27,10 @@ gem "adminlte2-rails"
 gem "figaro"
 gem "activemodel-serializers-xml", github: "rails/activemodel-serializers-xml"
 gem "draper", github: "audionerd/draper", branch: "rails5"
+gem "jquery-turbolinks"
+gem "acts-as-taggable-on", "~> 4.0"
+gem "bootstrap-tagsinput-rails"
+gem "social-share-button"
 
 group :development, :test do
   gem "byebug", platform: :mri

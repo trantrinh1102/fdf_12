@@ -22,6 +22,28 @@
         </div>
       </div>
     </div>
+    <div class="block-item-list block">
+      <h3 class="title">
+        <span><%= t "common.tags" %></span>
+      </h3>
+      <div class="clearfix body">
+        <div class="category-list">
+          <%= link_to products_path,
+            class: "btn btn-default col-lg-6 col-md-12 active" do %>
+            <span><%= t "common.category.all" %></span>
+          <% end %>
+          <% @tags.each do |tag|%>
+            <% if tag.taggings_count > 0 %>
+              <%= link_to tag_path(tag),
+                class: "btn btn-default col-lg-6 col-md-12 active" do %>
+                <span><%= tag.name %></span>
+                <span class="badge"><%= tag.taggings_count %></span>
+              <% end %>
+            <% end %>
+          <% end %>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Begin carousel -->

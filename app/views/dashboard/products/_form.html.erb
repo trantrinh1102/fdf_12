@@ -22,6 +22,16 @@
       error: t(".product_price_error"), class: "form-control" %>
   </div>
   <div class="form-group">
+    <%= f.label :status %>
+    <%= f.select :status,
+      Product.statuses.keys.map{|status| [status.titleize, status]}, {},
+      class: "form-control inline" %>
+  </div>
+  <div class="form-group">
+    <%= f.input :tag_list, class: "form-control",
+      input_html: {value: @product.tag_list.to_s, data: {role: "tagsinput"}} %>
+  </div>
+  <div class="form-group">
     <%= f.label :image %>
     <%= f.file_field :image, accept: Settings.pictures.accepted_files %>
   </div>

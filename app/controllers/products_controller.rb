@@ -1,6 +1,7 @@
 class ProductsController < ApplicationController
   def index
-    @products = Product.page(params[:page]).per Settings.common.per_page
+    @products = Product.active.page(params[:page])
+      .per Settings.common.products_per_page
   end
 
   def new
@@ -9,11 +10,12 @@ class ProductsController < ApplicationController
 
   def show
     @product = Product.find_by id: params[:id]
-    unless @product
+    if @product
+      @comment = @product.comments.build
+      @comments = @product.comments.newest.includes :user
+    else
       flash[:danger] = t "product.not_product"
       redirect_to products_path
     end
-    @comment = @product.comments.build
-    @comments = @product.comments.newest.includes :user
   end
 end

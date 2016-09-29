@@ -8,6 +8,7 @@ class Shop < ApplicationRecord
   has_many :orders
   has_many :order_products, through: :orders
   has_many :products
+  has_many :tags, through: :products
 
   enum status: {pending: 0, active: 1, closed: 2, rejected: 3, blocked: 4}
 
@@ -25,8 +26,11 @@ class Shop < ApplicationRecord
   delegate :email, to: :owner, prefix: :owner
 
   scope :by_date_newest, ->{order(created_at: :desc)}
-  scope :by_active, ->{(where status: :active)}
-  scope :top_shops, ->{by_active.by_date_newest.limit Settings.index.max_shops}
+  scope :top_shops, ->{active.by_date_newest.limit Settings.index.max_shops}
+
+  def all_tags
+    tags.uniq
+  end
 
   private
   def create_shop_manager

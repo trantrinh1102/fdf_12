@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160922040811) do
+ActiveRecord::Schema.define(version: 20160927150548) do
 
   create_table "admins", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "email",                  default: "", null: false
@@ -92,15 +92,15 @@ ActiveRecord::Schema.define(version: 20160922040811) do
   end
 
   create_table "orders", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "status"
+    t.integer  "status",                   default: 0, null: false
     t.datetime "end_at"
     t.text     "notes",      limit: 65535
     t.integer  "user_id"
     t.integer  "shop_id"
     t.integer  "coupon_id"
     t.datetime "deleted_at"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at",                           null: false
+    t.datetime "updated_at",                           null: false
     t.float    "total_pay",  limit: 24
     t.index ["coupon_id"], name: "index_orders_on_coupon_id", using: :btree
     t.index ["deleted_at"], name: "index_orders_on_deleted_at", using: :btree
@@ -114,13 +114,13 @@ ActiveRecord::Schema.define(version: 20160922040811) do
     t.text     "description", limit: 65535
     t.float    "price",       limit: 24
     t.string   "image"
-    t.integer  "status"
+    t.integer  "status",                    default: 1
     t.integer  "category_id"
     t.integer  "shop_id"
     t.integer  "user_id"
     t.datetime "deleted_at"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.index ["category_id"], name: "index_products_on_category_id", using: :btree
     t.index ["deleted_at"], name: "index_products_on_deleted_at", using: :btree
     t.index ["name"], name: "index_products_on_name", using: :btree
@@ -159,37 +159,41 @@ ActiveRecord::Schema.define(version: 20160922040811) do
   create_table "shops", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
     t.text     "description",    limit: 65535
-    t.integer  "status"
+    t.integer  "status",                       default: 0
     t.string   "cover_image"
     t.string   "avatar"
     t.float    "averate_rating", limit: 24
     t.integer  "owner_id"
     t.datetime "deleted_at"
-    t.datetime "created_at",                   null: false
-    t.datetime "updated_at",                   null: false
+    t.datetime "created_at",                               null: false
+    t.datetime "updated_at",                               null: false
     t.index ["deleted_at"], name: "index_shops_on_deleted_at", using: :btree
     t.index ["owner_id"], name: "index_shops_on_owner_id", using: :btree
   end
 
-  create_table "tag_products", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "taggings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "tag_id"
-    t.integer  "product_id"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_tag_products_on_deleted_at", using: :btree
-    t.index ["product_id"], name: "index_tag_products_on_product_id", using: :btree
-    t.index ["tag_id", "product_id"], name: "index_tag_products_on_tag_id_and_product_id", using: :btree
-    t.index ["tag_id"], name: "index_tag_products_on_tag_id", using: :btree
+    t.string   "taggable_type"
+    t.integer  "taggable_id"
+    t.string   "tagger_type"
+    t.integer  "tagger_id"
+    t.string   "context",       limit: 128
+    t.datetime "created_at"
+    t.index ["context"], name: "index_taggings_on_context", using: :btree
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true, using: :btree
+    t.index ["tag_id"], name: "index_taggings_on_tag_id", using: :btree
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context", using: :btree
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy", using: :btree
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id", using: :btree
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type", using: :btree
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type", using: :btree
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id", using: :btree
   end
 
   create_table "tags", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.datetime "deleted_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["deleted_at"], name: "index_tags_on_deleted_at", using: :btree
-    t.index ["name"], name: "index_tags_on_name", using: :btree
+    t.string  "name",                       collation: "utf8_bin"
+    t.integer "taggings_count", default: 0
+    t.index ["name"], name: "index_tags_on_name", unique: true, using: :btree
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -210,7 +214,7 @@ ActiveRecord::Schema.define(version: 20160922040811) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.integer  "status"
+    t.integer  "status",                 default: 0
     t.index ["deleted_at"], name: "index_users_on_deleted_at", using: :btree
     t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
@@ -232,6 +236,4 @@ ActiveRecord::Schema.define(version: 20160922040811) do
   add_foreign_key "reviews", "users"
   add_foreign_key "shop_managers", "shops"
   add_foreign_key "shop_managers", "users"
-  add_foreign_key "tag_products", "products"
-  add_foreign_key "tag_products", "tags"
 end

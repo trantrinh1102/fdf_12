@@ -1,16 +1,17 @@
 <div class="page-content">
-  <% if @cart.present? %>
+  <% if @cart_shop.present? %>
     <div class="container">
       <div class="row">
-        <%= render "order_products", order_products: @cart.items %>
+        <%= render "order_products", order_products: @cart_shop.items %>
         <div class="pull-right">
-          <h4><b><%= t "oder.total" %>: </b>
-            <%= @cart.total_price %> <%= t "cart.vnd" %> </h4>
+          <h4><b><%= t "oder.total" %></b>
+          <%= @cart_shop.total_price %>
         </div>
       </div>
-      <%= simple_form_for @orders do |f| %>
+      <%= simple_form_for @order do |f| %>
        <%= f.input :notes, class: "form-control" %>
        <%= f.submit data: {confirm: t("oder.confirm")}, class: "btn btn_order" %>
+       <%= hidden_field_tag :shop_id, @shop.id %>
       <% end %>
     </div>
   <% end %>

@@ -19,6 +19,7 @@ $(document).ready(function() {
       success: function(data) {
         btn.val(statusChange);
         $(btn).removeClass(classCssNow).addClass(classCssAfter);
+        btn.closest('tr').find('.status').text(statusNow);
       },
       error: function(error_message) {
         alert('error ' + error_message);

@@ -1,5 +1,5 @@
 class Dashboard::OrdersController < BaseDashboardController
-  before_action :load_shop, only: [:index, :update]
+  before_action :load_shop, only: [:index, :show, :update]
 
   def index
     if @shop

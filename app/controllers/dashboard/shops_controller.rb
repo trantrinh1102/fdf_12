@@ -18,11 +18,13 @@ class Dashboard::ShopsController < BaseDashboardController
 
   def show
     @shop = @shop.decorate
-    @products = @shop.products
+    @products = @shop.products.page(params[:page])
+      .per Settings.common.products_per_page
   end
 
   def index
-    @shops = current_user.own_shops.decorate
+    @shops = current_user.own_shops.page(params[:page])
+      .per(Settings.common.per_page).decorate
   end
 
   def edit

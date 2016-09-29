@@ -3,8 +3,6 @@
     <div class="row">
       <%= render "list" %>
     </div>
-    <% if @cart.present? %>
-      <%= link_to t("oder.btn_oder"), new_order_path, class: "btn btn_add_to_cart" %>
-    <% end %>
+
   </div>
 </div>

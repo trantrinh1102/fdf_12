@@ -40,6 +40,9 @@ en:
     btn_your_shops: "Your shops"
     btn_request: "Request"
     all_shops: "All shops"
+    product_number: "%{number} products"
+    view_button: "View"
+    tags: "Tags"
   header:
     account: "Account"
     shop_manager: "Shop management"

@@ -9,6 +9,7 @@ class Dashboard::ProductsController < BaseDashboardController
   end
 
   def index
+    @products.page(params[:page]).per Settings.common.products_per_page
   end
 
   def edit
@@ -62,7 +63,7 @@ class Dashboard::ProductsController < BaseDashboardController
 
   def product_params
     params.require(:product).permit :id, :name, :description, :price,
-      :category_id, :user_id, :image, :status
+      :category_id, :user_id, :image, :status, :tag_list
   end
 
   def load_categories
