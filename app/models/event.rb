@@ -11,6 +11,8 @@ class Event < ApplicationRecord
 
   def load_message
     case eventable_type
+    when OrderProduct.name
+      "this is abc"
     when Shop.name
       "#{eventable.name} #{eventable_type} #{I18n.t "notification.shop"}
         :#{message.upcase},\n #{time_ago_in_words(created_at)}
@@ -28,6 +30,8 @@ class Event < ApplicationRecord
 
   def get_link_img
     case eventable_type
+    when OrderProduct.name
+      "this is abc"
     when Shop.name
       eventable.avatar.url
     when Product.name
@@ -37,6 +41,8 @@ class Event < ApplicationRecord
 
   def get_link_redirect
     case eventable_type
+    when OrderProduct.name
+      "this is abc"
     when Shop.name
       "/dashboard/shops/#{eventable_id}"
     end
