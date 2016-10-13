@@ -17,7 +17,7 @@ class Order < ApplicationRecord
   after_update :build_order_products
   after_create :build_order_products
   after_create_commit :send_notification
-
+  after_create :check_new_order
 
   scope :by_date_newest, ->{order created_at: :desc}
 
@@ -105,5 +105,22 @@ class Order < ApplicationRecord
   def send_notification
     Event.create message: "",
       user_id: self.shop.owner_id, eventable_id: id, eventable_type: Order.name
+  end
+
+  def update_status_new_order
+    if self.pending?
+      self.update_attributes(status: :closed, change_status: true)
+      send_notification_orderer
+    end
+  end
+
+  def send_notification_orderer
+    Event.create message: :closed,
+      user_id: user_id, eventable_id: id, eventable_type: Order.name
+  end
+  private
+  def check_new_order
+    delay(run_at: Settings.delay_check_order.minutes.from_now)
+      .update_status_new_order
   end
 end

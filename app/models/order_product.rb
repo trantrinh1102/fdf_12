@@ -7,6 +7,7 @@ class OrderProduct < ApplicationRecord
 
   enum status: {pending: 0, accepted: 1, rejected: 2}
   delegate :name, to: :user, prefix: true, allow_nil: true
+  delegate :email, to: :user, prefix: true, allow_nil: true
   delegate :name, to: :product, prefix: true
 
   def total_price
