@@ -22,6 +22,7 @@ class Dashboard::ProductsController < BaseDashboardController
       redirect_to dashboard_shop_path @shop
     else
       flash[:danger] = t "flash.danger.dashboard.create_product"
+      load_categories
       render :new
     end
   end
@@ -63,8 +64,8 @@ class Dashboard::ProductsController < BaseDashboardController
   end
 
   def product_params
-    params.require(:product).permit :id, :name, :description, :price,
-      :category_id, :user_id, :image, :status, :tag_list
+    params.require(:product).permit :id, :name, :description, :price, :user_id,
+      :category_id,  :image, :status, :tag_list, :start_hour, :end_hour
   end
 
   def load_categories
